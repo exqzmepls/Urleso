@@ -1,0 +1,8 @@
+﻿<Project>
+
+    <ItemGroup>
+        <PackageVersion Include="MediatR" Version="12.1.1"/>
+        <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1"/>
+    </ItemGroup>
+
+</Project>
