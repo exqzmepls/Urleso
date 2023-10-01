@@ -2,7 +2,6 @@
 
     <ItemGroup>
         <PackageReference Include="MediatR"/>
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions"/>
     </ItemGroup>
 
     <ItemGroup>
