@@ -1,5 +1,5 @@
 ﻿using Urleso.Application.Messaging.Abstractions;
-using Urleso.Domain.Shared;
+using Urleso.Domain.Results;
 
 namespace Urleso.Application.Messaging;
 

@@ -1,4 +1,4 @@
-﻿using Urleso.Domain.Shared;
+﻿using Urleso.Domain.Results;
 
 namespace Urleso.Application.Messaging.Abstractions;
 
