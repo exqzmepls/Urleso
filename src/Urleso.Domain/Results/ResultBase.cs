@@ -1,4 +1,4 @@
-﻿namespace Urleso.Domain.Shared;
+﻿namespace Urleso.Domain.Results;
 
 public abstract class ResultBase
 {
