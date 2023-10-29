@@ -1,7 +1,6 @@
-﻿using Urleso.Application.Messaging.Abstractions;
-using Urleso.Domain.Results;
+﻿using Urleso.Domain.Results;
 
-namespace Urleso.Application.Messaging;
+namespace Urleso.Application.Abstractions.Messaging;
 
 internal sealed class Sender(
     MediatR.ISender sender
