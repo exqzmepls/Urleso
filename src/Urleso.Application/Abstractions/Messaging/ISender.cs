@@ -1,6 +1,6 @@
 ﻿using Urleso.Domain.Results;
 
-namespace Urleso.Application.Messaging.Abstractions;
+namespace Urleso.Application.Abstractions.Messaging;
 
 public interface ISender
 {

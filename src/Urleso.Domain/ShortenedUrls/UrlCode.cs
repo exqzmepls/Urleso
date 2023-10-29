@@ -4,7 +4,7 @@ namespace Urleso.Domain.ShortenedUrls;
 
 public sealed record UrlCode
 {
-    private const int CodeDefaultLength = 8;
+    public const int CodeDefaultLength = 8;
 
     private static readonly HashSet<char> AvailableCharsSet = GetAvailableCharsSet();
 

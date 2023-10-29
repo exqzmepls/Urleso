@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Urleso.Domain.Results;
 
-namespace Urleso.Application.Messaging.Abstractions;
+namespace Urleso.Application.Abstractions.Messaging;
 
 public interface ICommandHandler<in TCommand> : IRequestHandler<TCommand, Result>
     where TCommand : ICommand;
