@@ -1,9 +1,13 @@
-﻿using Urleso.Application.Abstractions.Services;
+﻿using Microsoft.Extensions.Logging;
+using Urleso.Application.Abstractions.Services;
 using Urleso.Domain.Results;
 
 namespace Urleso.Infrastructure.Services;
 
-internal sealed class CodeGeneratingService : ICodeGeneratingService
+internal sealed class CodeGeneratingService(
+        ILogger<CodeGeneratingService> logger
+    )
+    : ICodeGeneratingService
 {
     private static readonly IReadOnlyList<char> AvailableChars;
 
@@ -25,22 +29,35 @@ internal sealed class CodeGeneratingService : ICodeGeneratingService
         }
     }
 
-    public TypedResult<string> GenerateUniqueCode(int lenght)
+    public TypedResult<string> GenerateUniqueCode(int length)
     {
-        var codeChars = new char[lenght];
-        for (var i = 0; i < lenght; i++)
-        {
-            codeChars[i] = GetRandomChar();
-        }
-
-        var code = codeChars.ToString()!;
-        return TypedResult<string>.Success(code);
+        logger.LogInformation("Generation unique code with length of '{UniqueCodeLength}'...", length);
+        var uniqueCode = GenerateUniqueCodeInternal(length);
+        logger.LogInformation("Generated unique code: {UniqueCode}", uniqueCode);
+        return TypedResult<string>.Success(uniqueCode);
     }
 
-    private static char GetRandomChar()
+    private string GenerateUniqueCodeInternal(int length)
     {
+        var codeChars = new char[length];
+        for (var index = 0; index < length; index++)
+        {
+            logger.LogDebug("Getting char for index '{UniqueCodeCharIndex}'...", index);
+            var uniqueCodeChar = GetRandomChar();
+            codeChars[index] = uniqueCodeChar;
+            logger.LogDebug("'{UniqueCodeCharIndex}' char: {UniqueCodeChar}", index, uniqueCodeChar);
+        }
+
+        return codeChars.ToString()!;
+    }
+
+    private char GetRandomChar()
+    {
+        logger.LogTrace("Getting random char...");
         var randomCharIndex = Random.Shared.Next(AvailableChars.Count);
+        logger.LogTrace("Random char index: {RandomCharIndex}", randomCharIndex);
         var randomChar = AvailableChars[randomCharIndex];
+        logger.LogTrace("Random char: {RandomChar}", randomChar);
         return randomChar;
     }
 }
