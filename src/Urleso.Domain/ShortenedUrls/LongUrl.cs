@@ -4,7 +4,7 @@ namespace Urleso.Domain.ShortenedUrls;
 
 public sealed record LongUrl
 {
-    private const int UrlMaxLength = 1024;
+    public const int UrlMaxLength = 1024;
 
     private LongUrl(string value)
     {

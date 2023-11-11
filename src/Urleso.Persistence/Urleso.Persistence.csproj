@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Urleso.Domain\Urleso.Domain.csproj"/>
+    </ItemGroup>
+
+</Project>
