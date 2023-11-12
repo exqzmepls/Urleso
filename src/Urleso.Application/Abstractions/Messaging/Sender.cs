@@ -8,7 +8,7 @@ internal sealed class Sender(
 {
     public async Task<Result> SendAsync(
         ICommand command,
-        CancellationToken cancellationToken = default
+        CancellationToken cancellationToken
     )
     {
         var response = await sender.Send(command, cancellationToken);
@@ -17,7 +17,7 @@ internal sealed class Sender(
 
     public async Task<TypedResult<TResponse>> SendAsync<TResponse>(
         ICommand<TResponse> command,
-        CancellationToken cancellationToken = default
+        CancellationToken cancellationToken
     )
     {
         var response = await sender.Send(command, cancellationToken);
@@ -26,7 +26,7 @@ internal sealed class Sender(
 
     public async Task<TypedResult<TResponse>> SendAsync<TResponse>(
         IQuery<TResponse> query,
-        CancellationToken cancellationToken = default
+        CancellationToken cancellationToken
     )
     {
         var response = await sender.Send(query, cancellationToken);
