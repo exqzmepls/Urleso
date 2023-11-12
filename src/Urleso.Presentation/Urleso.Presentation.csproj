@@ -1,1 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk"/>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <PackageReference Include="Carter"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Urleso.Application\Urleso.Application.csproj"/>
+    </ItemGroup>
+
+</Project>
