@@ -12,7 +12,7 @@ internal sealed class GetLongUrlByCodeQueryHandler(
 {
     public async Task<TypedResult<LongUrl?>> Handle(GetLongUrlByCodeQuery query, CancellationToken cancellationToken)
     {
-        var shortenedUrlResult = await shortenedUrlRepository.GetByCodeAsync(query.Code, cancellationToken);
+        var shortenedUrlResult = await shortenedUrlRepository.GetByCodeOrDefaultAsync(query.Code, cancellationToken);
         if (!shortenedUrlResult.IsSuccess)
         {
             return TypedResult<LongUrl?>.Failure(shortenedUrlResult.Error);

@@ -15,6 +15,8 @@ public sealed record UrlCode
 
     public string Value { get; }
 
+    public override string ToString() => Value;
+
     public static TypedResult<UrlCode> Create(string code)
     {
         if (!IsLengthCorrect(code))

@@ -35,6 +35,12 @@ internal sealed class CreateShortenedUrlCommandHandler(
         var urlCode = urlCodeResult.Value;
         var shortenedUrl = CreateShortenedUrl(longUrl, urlCode);
 
+        var addResult = await shortenedUrlRepository.AddAsync(shortenedUrl, cancellationToken);
+        if (!addResult.IsSuccess)
+        {
+            return TypedResult<ShortenedUrl>.Failure(addResult.Error);
+        }
+
         var saveChangesResult = await unitOfWork.SaveChangesAsync(cancellationToken);
         return !saveChangesResult.IsSuccess
             ? TypedResult<ShortenedUrl>.Failure(saveChangesResult.Error)

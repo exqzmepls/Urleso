@@ -2,6 +2,8 @@
 
     <ItemGroup>
         <PackageVersion Include="MediatR" Version="12.1.1"/>
+        <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="7.0.13"/>
+        <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0"/>
     </ItemGroup>
 
 </Project>
