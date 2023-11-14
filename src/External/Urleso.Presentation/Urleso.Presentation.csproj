@@ -5,7 +5,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Urleso.Application\Urleso.Application.csproj"/>
+        <ProjectReference Include="..\..\Core\Urleso.Application\Urleso.Application.csproj"/>
     </ItemGroup>
 
 </Project>
