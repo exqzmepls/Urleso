@@ -48,7 +48,7 @@ internal sealed class CodeGeneratingService(
             logger.LogDebug("'{UniqueCodeCharIndex}' char: {UniqueCodeChar}", index, uniqueCodeChar);
         }
 
-        return codeChars.ToString()!;
+        return new string(codeChars);
     }
 
     private char GetRandomChar()
