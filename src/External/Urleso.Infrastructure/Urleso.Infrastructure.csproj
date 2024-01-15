@@ -1,9 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-    <ItemGroup>
-        <ProjectReference Include="..\..\Core\Urleso.Application\Urleso.Application.csproj"/>
-        <ProjectReference Include="..\..\Core\Urleso.Domain\Urleso.Domain.csproj"/>
-        <ProjectReference Include="..\Urleso.Persistence\Urleso.Persistence.csproj"/>
-    </ItemGroup>
-
-</Project>

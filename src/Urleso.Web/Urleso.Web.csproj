@@ -8,13 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Core\Urleso.Application\Urleso.Application.csproj"/>
-        <ProjectReference Include="..\External\Urleso.Infrastructure\Urleso.Infrastructure.csproj"/>
-        <ProjectReference Include="..\External\Urleso.Presentation\Urleso.Presentation.csproj"/>
+        <PackageReference Include="Swashbuckle.AspNetCore"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore"/>
+        <ProjectReference Include="..\Urleso.Application\Urleso.Application.csproj"/>
+        <ProjectReference Include="..\Urleso.Infrastructure\Urleso.Infrastructure.csproj"/>
+        <ProjectReference Include="..\Urleso.Presentation\Urleso.Presentation.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

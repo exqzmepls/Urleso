@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Core\Urleso.Domain\Urleso.Domain.csproj"/>
+        <ProjectReference Include="..\..\src\Urleso.Domain\Urleso.Domain.csproj"/>
     </ItemGroup>
 
 </Project>
