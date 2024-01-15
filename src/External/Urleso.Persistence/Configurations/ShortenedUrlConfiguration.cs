@@ -12,6 +12,8 @@ internal sealed class ShortenedUrlConfiguration : IEntityTypeConfiguration<Short
         builder.Property(u => u.Id)
             .HasConversion(shortenedUrlId => shortenedUrlId.Value, value => new ShortenedUrlId(value));
 
+        builder.Property(u => u.CreatedOnUtc);
+
         builder.Property(u => u.LongUrl)
             .HasMaxLength(LongUrl.UrlMaxLength)
             .HasConversion(longUrl => longUrl.Value, value => LongUrl.Create(value).Value);
