@@ -9,5 +9,5 @@ public interface IShortenedUrlRepository
 
     public Task<Result> AddAsync(ShortenedUrl url, CancellationToken cancellationToken);
 
-    public Task<TypedResult<ShortenedUrl?>> GetByCodeOrDefaultAsync(string code, CancellationToken cancellationToken);
+    public Task<TypedResult<ShortenedUrl?>> GetByCodeOrDefaultAsync(UrlCode code, CancellationToken cancellationToken);
 }
