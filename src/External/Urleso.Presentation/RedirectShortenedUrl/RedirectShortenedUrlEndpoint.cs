@@ -7,18 +7,21 @@ using Urleso.Presentation.Shared;
 
 namespace Urleso.Presentation.RedirectShortenedUrl;
 
-public static class RedirectShortenedUrlEndpoint
+internal static class RedirectShortenedUrlEndpoint
 {
     public static RouteHandlerBuilder MapShortenedUrlRedirect(this WebApplication app)
     {
-        return app.MapGet("", RedirectByCodeAsync);
+        var endpoint = app
+            .MapGet("/{UrlCode}", RedirectByCodeAsync)
+            .WithTags("Redirect");
+
+        return endpoint;
     }
 
     private static async Task<Results<RedirectHttpResult, NotFound, BadRequest<ErrorDetails>>> RedirectByCodeAsync(
         [AsParameters] RedirectShortenedUrlByCodeRequest request,
         [FromServices] ISender sender,
-        CancellationToken cancellationToken
-    )
+        CancellationToken cancellationToken)
     {
         var query = request.MapToGetLongUrlByCodeQuery();
         var queryResult = await sender.SendAsync(query, cancellationToken);
