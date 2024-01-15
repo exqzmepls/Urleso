@@ -1,6 +1,6 @@
-﻿using Urleso.Application.Abstractions.Time;
+﻿using Urleso.Application.Abstractions.Services;
 
-namespace Urleso.Infrastructure.Time;
+namespace Urleso.Infrastructure.Services;
 
 internal sealed class SystemClock : IClock
 {

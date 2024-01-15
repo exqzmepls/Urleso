@@ -2,7 +2,6 @@
 using Urleso.Application.Abstractions.Data.Repositories;
 using Urleso.Application.Abstractions.Messaging;
 using Urleso.Application.Abstractions.Services;
-using Urleso.Application.Abstractions.Time;
 using Urleso.Domain.Results;
 using Urleso.Domain.ShortenedUrls;
 

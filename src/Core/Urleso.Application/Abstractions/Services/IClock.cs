@@ -1,4 +1,4 @@
-﻿namespace Urleso.Application.Abstractions.Time;
+﻿namespace Urleso.Application.Abstractions.Services;
 
 public interface IClock
 {
