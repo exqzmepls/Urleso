@@ -1,9 +1,9 @@
 ﻿services:
-  urleso.web:
-    container_name: urleso-web
+  urleso.api:
+    container_name: urleso-api
     build:
       context: .
-      dockerfile: Urleso.Web/Dockerfile
+      dockerfile: Urleso.Api/Dockerfile
     depends_on:
       urleso.db:
         condition: service_healthy

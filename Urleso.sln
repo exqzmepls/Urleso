@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urleso.Persistence", "src\U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urleso.Presentation", "src\Urleso.Presentation\Urleso.Presentation.csproj", "{3CF277F0-D49F-4A57-9CB5-A6FA5661B279}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urleso.Web", "src\Urleso.Web\Urleso.Web.csproj", "{AE183B0D-2D06-43EE-983B-93F89070DDE9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urleso.Api", "src\Urleso.Api\Urleso.Api.csproj", "{AE183B0D-2D06-43EE-983B-93F89070DDE9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urleso.DatabaseMigrator", "src\Urleso.DatabaseMigrator\Urleso.DatabaseMigrator.csproj", "{AACD26CF-1273-408C-829A-59266D91A0B7}"
 EndProject
