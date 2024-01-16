@@ -11,7 +11,7 @@ public static class DependencyInjection
         services.AddDbContextFactory<ApplicationDbContext>(options =>
         {
             var connectionString = configuration.GetConnectionString("postgresql");
-            options.UseNpgsql(connectionString);
+            options.UseNpgsql(connectionString, o => o.MigrationsAssembly("Urleso.DatabaseMigrator"));
         });
 
         return services;
