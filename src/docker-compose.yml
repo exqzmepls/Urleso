@@ -21,6 +21,8 @@
       - POSTGRES_DB=urleso
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=pgpwd4user
+    volumes:
+      - ./.containers/postgresql-db:/var/lib/postgresql/data
     ports:
       - 5432:5432
     healthcheck:
