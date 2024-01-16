@@ -1,10 +1,13 @@
+using Serilog;
 using Urleso.Application;
 using Urleso.Infrastructure;
 using Urleso.Presentation;
 
 var builder = WebApplication.CreateBuilder(args);
-var services = builder.Services;
 
+builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
+
+var services = builder.Services;
 services.AddApplication();
 services.AddInfrastructure(builder.Configuration);
 services.AddPresentation();
@@ -19,6 +22,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseSerilogRequestLogging();
 app.MapEndpoints();
 
 app.Run();
