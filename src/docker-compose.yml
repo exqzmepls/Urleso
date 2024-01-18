@@ -1,40 +1,57 @@
-﻿services:
+﻿version: '3.8'
+
+services:
   urleso.api:
     container_name: urleso-api
     build:
       context: .
       dockerfile: Urleso.Api/Dockerfile
     depends_on:
-      urleso.db:
-        condition: service_healthy
-      urleso.seq:
+      urleso.mirgations:
+        condition: service_completed_successfully
+      urleso.api.seq:
         condition: service_started
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=${URLESO_ENVIRONMENT}
+      - CUSTOMCONNSTR_POSTGRESQL=Host=urleso-db;Port=5432;Database=${DATABASE_NAME};Username=${DATABASE_USER};Password=${DATABASE_PASSWORD}
     ports:
-      - 5238:8080
+      - ${API_PORT}:8080
+
+  urleso.mirgations:
+    container_name: urleso-migrations
+    build:
+      context: .
+      dockerfile: Urleso.DatabaseMigrator/Dockerfile
+    depends_on:
+      urleso.db:
+        condition: service_healthy
+    environment:
+      - DOTNET_ENVIRONMENT=${URLESO_ENVIRONMENT}
+      - CUSTOMCONNSTR_POSTGRESQL=Host=urleso-db;Port=5432;Database=${DATABASE_NAME};Username=${DATABASE_USER};Password=${DATABASE_PASSWORD}
 
   urleso.db:
     image: postgres:16.1-alpine
     container_name: urleso-db
     environment:
-      - POSTGRES_DB=urleso
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=pgpwd4user
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
     volumes:
-      - ./.containers/postgresql-db:/var/lib/postgresql/data
+      - ${DATABASE_DATA_PATH}:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - ${DATABASE_PORT}:5432
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready" ]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  urleso.seq:
-    image: datalust/seq:latest
-    container_name: urleso-seq
+  urleso.api.seq:
+    image: datalust/seq:2023.4
+    container_name: urleso-api-seq
     environment:
       - ACCEPT_EULA=Y
+    volumes:
+      - ${API_SEQ_DATA_PATH}:/data
     ports:
-      - 5080:80
+      - ${API_SEQ_PORT}:80
