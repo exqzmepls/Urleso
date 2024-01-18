@@ -11,9 +11,8 @@ internal static class RedirectShortenedUrlEndpoint
 {
     public static RouteHandlerBuilder MapShortenedUrlRedirect(this WebApplication app)
     {
-        var endpoint = app
-            .MapGet("/{UrlCode}", RedirectByCodeAsync)
-            .WithTags("Redirect");
+        var endpoint = app.MapGet("/{UrlCode}", RedirectByCodeAsync)
+            .ExcludeFromDescription();
 
         return endpoint;
     }
