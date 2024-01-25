@@ -13,16 +13,17 @@ public sealed class ShortenedUrlEndpoints : BaseModule
 {
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        var shortenedUrlsGroup = app.MapGroup("shortened-urls");
+        var shortenedUrlsGroup = app
+            .MapGroup("shortened-urls")
+            .WithTags("Shortened URLs");
 
-        shortenedUrlsGroup.MapPost("", CreateShortenedUrlAsync);
+        shortenedUrlsGroup.MapPost("/", CreateShortenedUrlAsync);
     }
 
     private static async Task<Results<Ok<ShortenedUrlDetails>, BadRequest<ErrorDetails>>> CreateShortenedUrlAsync(
         [AsParameters] CreateShortenedUrlRequest request,
         [FromServices] ISender sender,
-        CancellationToken cancellationToken
-    )
+        CancellationToken cancellationToken)
     {
         var command = request.MapToCreateShortenedUrlCommand();
         var commandResult = await sender.SendAsync(command, cancellationToken);

@@ -28,6 +28,8 @@ public sealed record LongUrl
         return TypedResult<LongUrl>.Success(new LongUrl(url));
     }
 
+    public override string ToString() => Value;
+
     private static bool IsLengthNotGreaterThenMaxValue(string url) => url.Length <= UrlMaxLength;
 
     private static bool IsUrlAbsolute(string url) => Uri.TryCreate(url, UriKind.Absolute, out _);

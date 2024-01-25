@@ -15,8 +15,6 @@ public sealed record UrlCode
 
     public string Value { get; }
 
-    public override string ToString() => Value;
-
     public static TypedResult<UrlCode> Create(string code)
     {
         if (!IsLengthCorrect(code))
@@ -31,6 +29,8 @@ public sealed record UrlCode
 
         return TypedResult<UrlCode>.Success(new UrlCode(code));
     }
+
+    public override string ToString() => Value;
 
     private static bool IsLengthCorrect(string code) => code.Length == CodeDefaultLength;
 

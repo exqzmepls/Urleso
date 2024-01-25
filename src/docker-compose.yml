@@ -1,0 +1,57 @@
+﻿version: '3.8'
+
+services:
+  urleso.api:
+    container_name: urleso-api
+    build:
+      context: .
+      dockerfile: Urleso.Api/Dockerfile
+    depends_on:
+      urleso.mirgations:
+        condition: service_completed_successfully
+      urleso.api.seq:
+        condition: service_started
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${URLESO_ENVIRONMENT}
+      - CUSTOMCONNSTR_POSTGRESQL=Host=urleso-db;Port=5432;Database=${DATABASE_NAME};Username=${DATABASE_USER};Password=${DATABASE_PASSWORD}
+    ports:
+      - ${API_PORT}:8080
+
+  urleso.mirgations:
+    container_name: urleso-migrations
+    build:
+      context: .
+      dockerfile: Urleso.DatabaseMigrator/Dockerfile
+    depends_on:
+      urleso.db:
+        condition: service_healthy
+    environment:
+      - DOTNET_ENVIRONMENT=${URLESO_ENVIRONMENT}
+      - CUSTOMCONNSTR_POSTGRESQL=Host=urleso-db;Port=5432;Database=${DATABASE_NAME};Username=${DATABASE_USER};Password=${DATABASE_PASSWORD}
+
+  urleso.db:
+    image: postgres:16.1-alpine
+    container_name: urleso-db
+    environment:
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+    volumes:
+      - ${DATABASE_DATA_PATH}:/var/lib/postgresql/data
+    ports:
+      - ${DATABASE_PORT}:5432
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  urleso.api.seq:
+    image: datalust/seq:2023.4
+    container_name: urleso-api-seq
+    environment:
+      - ACCEPT_EULA=Y
+    volumes:
+      - ${API_SEQ_DATA_PATH}:/data
+    ports:
+      - ${API_SEQ_PORT}:80

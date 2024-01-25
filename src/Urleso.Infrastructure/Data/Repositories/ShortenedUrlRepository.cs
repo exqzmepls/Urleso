@@ -33,11 +33,11 @@ internal sealed class ShortenedUrlRepository(
         return Result.Success();
     }
 
-    public async Task<TypedResult<ShortenedUrl?>> GetByCodeOrDefaultAsync(string code,
+    public async Task<TypedResult<ShortenedUrl?>> GetByCodeOrDefaultAsync(UrlCode code,
         CancellationToken cancellationToken)
     {
         logger.LogInformation("Getting single shortened url with code '{UrlCode}'...", code);
-        var shortenedUrl = await ShortenedUrls.SingleOrDefaultAsync(u => u.Code.Value == code, cancellationToken);
+        var shortenedUrl = await ShortenedUrls.SingleOrDefaultAsync(u => u.Code == code, cancellationToken);
         logger.LogInformation("Shortened url with code '{UrlCode}' is for '{LongUrl}'", code, shortenedUrl?.LongUrl);
         return TypedResult<ShortenedUrl?>.Success(shortenedUrl);
     }
