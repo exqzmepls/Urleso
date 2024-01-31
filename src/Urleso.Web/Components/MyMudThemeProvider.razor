@@ -1,21 +1,40 @@
 ﻿<CascadingValue Value="false" Name="UsePopoverProvider">
-    <MudThemeProvider Theme="MyTheme"></MudThemeProvider>
+    <MudThemeProvider @bind-IsDarkMode="@_isDarkMode" @ref="@_mudThemeProvider" Theme="MyTheme"/>
 </CascadingValue>
 
 @code {
 
+    private bool _isDarkMode;
+    private MudThemeProvider _mudThemeProvider = null!;
+
     public static MudTheme MyTheme => new()
     {
-        Palette = new PaletteLight()
+        Palette = new PaletteLight
         {
-            Primary = "#594AE2",
-            AppbarBackground = "#594AE2"
+            Primary = Colors.Blue.Default,
+            AppbarBackground = Colors.Blue.Default
         },
-        PaletteDark = new PaletteDark()
+        PaletteDark = new PaletteDark
         {
-            Primary = "#594AE2",
-            AppbarBackground = "#594AE2"
+            Primary = Colors.Grey.Default
         }
     };
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+            await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
+            StateHasChanged();
+        }
+    }
+
+    private Task OnSystemPreferenceChanged(bool newValue)
+    {
+        _isDarkMode = newValue;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
 
 }
