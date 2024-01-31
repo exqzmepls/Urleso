@@ -2,4 +2,16 @@
 
 <PageTitle>Urleso</PageTitle>
 
-<MudText Align="Align.Center" Class="mb-8">Welcome to your new app, powered by MudBlazor and the .NET 8 Template!</MudText>
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="12" sm="10" md="9" lg="8" xl="6">
+        <MudPaper Class="pa-4">
+            <MudStack Spacing="4">
+                <MudText Align="Align.Center" Typo="Typo.h4">
+                    <b>Paste the URL to be shortened</b>
+                </MudText>
+                <MudTextField Clearable="true" T="string" Label="Your long link" Variant="Variant.Outlined"/>
+                <MudButton Color="Color.Primary" DisableElevation="true" Size="Size.Medium" Variant="Variant.Filled">Shorten URL</MudButton>
+            </MudStack>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
