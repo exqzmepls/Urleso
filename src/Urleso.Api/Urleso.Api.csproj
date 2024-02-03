@@ -5,11 +5,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="NSwag.AspNetCore"/>
+        <PackageReference Include="NSwag.MSBuild">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Serilog.AspNetCore"/>
         <PackageReference Include="Serilog.Enrichers.Environment"/>
         <PackageReference Include="Serilog.Enrichers.Thread"/>
         <PackageReference Include="Serilog.Sinks.Seq"/>
-        <PackageReference Include="Swashbuckle.AspNetCore"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -23,5 +27,15 @@
             <Link>.dockerignore</Link>
         </Content>
     </ItemGroup>
+
+    <Target Name="NSwag" BeforeTargets="AfterBuild" Condition="'$(ClientGen)'=='True'">
+        <Exec ConsoleToMSBuild="true" ContinueOnError="true" Command="$(NSwagExe_Net80) run nswag.json /variables:OutputPath=..\Urleso.Api.Client,Configuration=$(Configuration)">
+            <Output TaskParameter="ExitCode" PropertyName="NSwagExitCode"/>
+            <Output TaskParameter="ConsoleOutput" PropertyName="NSwagOutput"/>
+        </Exec>
+
+        <Message Text="$(NSwagOutput)" Condition="'$(NSwagExitCode)' == '0'" Importance="low"/>
+        <Error Text="$(NSwagOutput)" Condition="'$(NSwagExitCode)' != '0'"/>
+    </Target>
 
 </Project>
