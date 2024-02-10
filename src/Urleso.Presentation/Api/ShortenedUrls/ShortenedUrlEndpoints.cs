@@ -39,10 +39,11 @@ public sealed class ShortenedUrlEndpoints : BaseModule
             return TypedResults.BadRequest(errorDetails);
         }
 
+        var shortenedUrlCode = commandResult.Value.Code.Value;
         var shortenedUrlDetails = new ShortenedUrlDetails
         {
-            Url = redirectSettingsOptions.Value.BaseAddress,
-            UrlCode = commandResult.Value.Code.Value,
+            Url = redirectSettingsOptions.Value.BaseAddress + shortenedUrlCode,
+            UrlCode = shortenedUrlCode,
         };
         return TypedResults.Ok(shortenedUrlDetails);
     }
