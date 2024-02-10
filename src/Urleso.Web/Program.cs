@@ -1,12 +1,18 @@
 using Urleso.Web.Components;
 using MudBlazor.Services;
+using Serilog;
+using Urleso.Web.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
-builder.Services.AddMudServices();
+var services = builder.Services;
+services.AddRazorComponents().AddInteractiveServerComponents();
+services.AddMudServices();
+
+services.AddApiSettings();
+services.AddApiServices();
 
 var app = builder.Build();
 
@@ -17,6 +23,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+app.UseSerilogRequestLogging();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

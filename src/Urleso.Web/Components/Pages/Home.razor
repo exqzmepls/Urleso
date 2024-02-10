@@ -1,5 +1,9 @@
 ﻿@page "/"
+@implements IDisposable
+@using Urleso.Web.Api.ShortenedUrls
 @inject IJSRuntime JsRuntime
+@inject ISnackbar Snackbar
+@inject IShortenedUrlService ShortenedUrlService
 
 <PageTitle>Urleso</PageTitle>
 
@@ -46,6 +50,8 @@
 
 @code {
 
+    private readonly CancellationTokenSource _cancellationTokenSource = new();
+
     private bool _isProcessing;
     private string? _longLink;
     private string? _shortLink;
@@ -54,6 +60,12 @@
     private bool _isShortLinkCopied;
     private string? _copyShortLinkButtonIcon;
     private string _copyShortLinkButtonText = "Copy shortened URL";
+
+    public void Dispose()
+    {
+        _cancellationTokenSource.Cancel();
+        _cancellationTokenSource.Dispose();
+    }
 
     private async Task ShortenLongLinkAsync()
     {
@@ -65,8 +77,19 @@
 
         _isProcessing = true;
 
-        await Task.Delay(2000);
-        _shortLink = "http://localhost:8090/qwerty";
+        Snackbar.Clear();
+        var shortLinkResult = await ShortenedUrlService.ShortenUrlAsync(_longLink!, _cancellationTokenSource.Token);
+        if (shortLinkResult.IsSuccess)
+        {
+            _shortLink = shortLinkResult.Value;
+        }
+        else
+        {
+            @foreach (var error in shortLinkResult.Errors)
+            {
+                Snackbar.Add(error.Message, Severity.Error);
+            }
+        }
 
         _isProcessing = false;
     }
