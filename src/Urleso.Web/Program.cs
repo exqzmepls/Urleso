@@ -5,7 +5,7 @@ using Urleso.Web.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// // https://github.com/dotnet/aspnetcore/issues/38212#issuecomment-1094357982
+// https://github.com/MudBlazor/MudBlazor/issues/6724
 builder.WebHost.UseStaticWebAssets();
 
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
