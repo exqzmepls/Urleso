@@ -4,12 +4,12 @@ EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["src/Directory.Build.props", ""]
-COPY ["src/Directory.Packages.props", ""]
-COPY ["src/Urleso.Web/Urleso.Web.csproj", "Urleso.Web/"]
-COPY ["src/Urleso.Api.Client/Urleso.Api.Client.csproj", "Urleso.Api.Client/"]
+COPY ["../Directory.Build.props", ""]
+COPY ["../Directory.Packages.props", ""]
+COPY ["Urleso.Web/Urleso.Web.csproj", "Urleso.Web/"]
+COPY ["Urleso.Api.Client/Urleso.Api.Client.csproj", "Urleso.Api.Client/"]
 RUN dotnet restore "Urleso.Web/Urleso.Web.csproj"
-COPY src/ .
+COPY . .
 WORKDIR "/src/Urleso.Web"
 RUN dotnet build "Urleso.Web.csproj" -c Release -o /app/build
 
