@@ -1,6 +1,21 @@
 ﻿version: '3.8'
 
 services:
+  urleso.web:
+    container_name: urleso-web
+    build:
+      context: .
+      dockerfile: Urleso.Web/Dockerfile
+    depends_on:
+      urleso.api:
+        condition: service_started
+      urleso.web.seq:
+        condition: service_started
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${URLESO_ENVIRONMENT}
+    ports:
+      - ${WEB_PORT}:8080
+
   urleso.api:
     container_name: urleso-api
     build:
@@ -45,6 +60,16 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  urleso.web.seq:
+    image: datalust/seq:2023.4
+    container_name: urleso-web-seq
+    environment:
+      - ACCEPT_EULA=Y
+    volumes:
+      - ${WEB_SEQ_DATA_PATH}:/data
+    ports:
+      - ${WEB_SEQ_PORT}:80
 
   urleso.api.seq:
     image: datalust/seq:2023.4
