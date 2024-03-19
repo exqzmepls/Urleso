@@ -3,13 +3,13 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["src/Directory.Build.props", ""]
-COPY ["src/Directory.Packages.props", ""]
-COPY ["src/Urleso.DatabaseMigrator/Urleso.DatabaseMigrator.csproj", "Urleso.DatabaseMigrator/"]
-COPY ["src/Urleso.Domain/Urleso.Domain.csproj", "Urleso.Domain/"]
-COPY ["src/Urleso.Persistence/Urleso.Persistence.csproj", "Urleso.Persistence/"]
-RUN dotnet restore "src/Urleso.DatabaseMigrator/Urleso.DatabaseMigrator.csproj"
-COPY src/ .
+COPY ["../Directory.Build.props", ""]
+COPY ["../Directory.Packages.props", ""]
+COPY ["Urleso.DatabaseMigrator/Urleso.DatabaseMigrator.csproj", "Urleso.DatabaseMigrator/"]
+COPY ["Urleso.Domain/Urleso.Domain.csproj", "Urleso.Domain/"]
+COPY ["Urleso.Persistence/Urleso.Persistence.csproj", "Urleso.Persistence/"]
+RUN dotnet restore "Urleso.DatabaseMigrator/Urleso.DatabaseMigrator.csproj"
+COPY . .
 WORKDIR "/src/Urleso.DatabaseMigrator"
 RUN dotnet build "Urleso.DatabaseMigrator.csproj" -c Release -o /app/build
 

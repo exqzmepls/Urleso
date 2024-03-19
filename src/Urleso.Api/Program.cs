@@ -1,4 +1,5 @@
 using Serilog;
+using Urleso.Api;
 using Urleso.Application;
 using Urleso.Infrastructure;
 using Urleso.Presentation;
@@ -12,14 +13,14 @@ services.AddApplication();
 services.AddInfrastructure(builder.Configuration);
 services.AddPresentation();
 services.AddEndpointsApiExplorer();
-services.AddSwaggerGen();
+services.AddOpenApiGen();
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseOpenApi();
+    app.UseSwaggerUi();
 }
 
 app.UseSerilogRequestLogging();

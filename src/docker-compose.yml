@@ -1,11 +1,31 @@
 ﻿version: '3.8'
+name: urleso
 
 services:
+  urleso.web:
+    container_name: urleso-web
+    build:
+      context: .
+      dockerfile: Urleso.Web/Dockerfile
+    image: urleso.web:latest
+    depends_on:
+      urleso.api:
+        condition: service_started
+      urleso.web.seq:
+        condition: service_started
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${URLESO_ENVIRONMENT}
+    volumes:
+      - ${WEB_DATA_PROTECTION_KEYS_PATH}:/root/.aspnet/DataProtection-Keys
+    ports:
+      - ${WEB_PORT}:8080
+
   urleso.api:
     container_name: urleso-api
     build:
       context: .
       dockerfile: Urleso.Api/Dockerfile
+    image: urleso.api:latest
     depends_on:
       urleso.mirgations:
         condition: service_completed_successfully
@@ -22,6 +42,7 @@ services:
     build:
       context: .
       dockerfile: Urleso.DatabaseMigrator/Dockerfile
+    image: urleso.migrations:latest
     depends_on:
       urleso.db:
         condition: service_healthy
@@ -45,6 +66,16 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  urleso.web.seq:
+    image: datalust/seq:2023.4
+    container_name: urleso-web-seq
+    environment:
+      - ACCEPT_EULA=Y
+    volumes:
+      - ${WEB_SEQ_DATA_PATH}:/data
+    ports:
+      - ${WEB_SEQ_PORT}:80
 
   urleso.api.seq:
     image: datalust/seq:2023.4
