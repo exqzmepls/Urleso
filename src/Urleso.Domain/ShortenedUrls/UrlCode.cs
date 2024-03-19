@@ -30,8 +30,6 @@ public sealed record UrlCode
         return TypedResult<UrlCode>.Success(new UrlCode(code));
     }
 
-    public override string ToString() => Value;
-
     private static bool IsLengthCorrect(string code) => code.Length == CodeDefaultLength;
 
     private static bool AreCharsValid(string code) => code.All(c => AvailableCharsSet.Contains(c));
