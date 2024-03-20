@@ -31,7 +31,7 @@ Fill free to explore [`.env`](src/.env) file and change default values as you wi
 
 ## TODO features
 
-- Distributed cache & redirecter app
-- Users accounts & autorization
+- Distributed cache & 'redirector'
+- User accounts & authorization service
 - CQRS pattern
 - ...
