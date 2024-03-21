@@ -27,7 +27,7 @@ Docker will run containers and you can use Urleso:
 - Specify `localhost` as host and `6432` as port to connect to PostgreSQL database
 - Also [WEB API](http://localhost:6808) and [WEB UI](http://localhost:6088) logs are provided by Seq
 
-Fill free to explore [`.env`](src/.env) file and change default values as you wish (containers restart is needed)
+Feel free to explore [`.env`](src/.env) file and change default values as you wish (containers restart is needed)
 
 ## TODO features
 
