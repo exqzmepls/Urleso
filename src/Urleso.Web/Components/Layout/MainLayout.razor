@@ -1,0 +1,19 @@
+﻿@inherits LayoutComponentBase
+
+<MyMudThemeProvider/>
+<MyMudProviders/>
+
+<MudLayout>
+    <MudAppBar Elevation="0">
+        <MudText Typo="Typo.h4" Class="ml-3">
+            <b>urleso</b>
+        </MudText>
+        <MudSpacer/>
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/exqzmepls/Urleso" Target="_blank"/>
+    </MudAppBar>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Large" Class="my-16 pt-16">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>

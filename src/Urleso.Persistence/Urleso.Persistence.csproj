@@ -5,11 +5,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Carter"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Urleso.Application\Urleso.Application.csproj"/>
+        <ProjectReference Include="..\Urleso.Domain\Urleso.Domain.csproj"/>
     </ItemGroup>
 
 </Project>

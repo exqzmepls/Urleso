@@ -1,0 +1,124 @@
+﻿@page "/"
+@implements IDisposable
+@using Urleso.Web.Api.ShortenedUrls
+@inject IJSRuntime JsRuntime
+@inject ISnackbar Snackbar
+@inject IShortenedUrlService ShortenedUrlService
+
+<PageTitle>Urleso</PageTitle>
+
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="12" sm="10" md="9" lg="8" xl="6">
+        <MudPaper Class="pa-4">
+            @if (_isProcessing)
+            {
+                <MudGrid Justify="Justify.Center">
+                    <MudItem Class="my-8">
+                        <MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large"/>
+                    </MudItem>
+                </MudGrid>
+            }
+            else
+            {
+                <MudStack Spacing="4">
+                    @if (_shortLink is null)
+                    {
+                        <MudText Align="Align.Center" Typo="Typo.h4">
+                            <b>Paste the URL to be shortened</b>
+                        </MudText>
+                        <MudForm @ref="_longLinkForm">
+                            <MudTextField @bind-Value="_longLink" Clearable="true" Immediate="true" InputMode="InputMode.url" InputType="InputType.Url" Label="Your long link" Required="true" RequiredError="Long link is required!" T="string" Variant="Variant.Outlined"></MudTextField>
+                        </MudForm>
+
+                        <MudButton Color="Color.Primary" DisableElevation="true" OnClick="@(ShortenLongLinkAsync)" Size="Size.Medium" Variant="Variant.Filled">Shorten URL</MudButton>
+                    }
+                    else
+                    {
+                        <MudText>Long link: <MudLink Color="Color.Secondary" Href="@_longLink" Target="_blank" Underline="Underline.Always">@_longLink</MudLink></MudText>
+                        <MudTextField InputType="InputType.Url" @bind-Text="_shortLink" Label="Your shortened URL" ReadOnly="true" T="string" Variant="Variant.Outlined"></MudTextField>
+                        <MudStack Row="true">
+                            <MudButton Color="Color.Secondary" DisableElevation="true" FullWidth="true" OnClick="@(GoBackToLongLinkInput)" Size="Size.Medium" Variant="Variant.Outlined">Shorten another link</MudButton>
+                            <MudButton Color="Color.Primary" Disabled="_isShortLinkCopied" DisableElevation="true" EndIcon="@_copyShortLinkButtonIcon" FullWidth="true" IconSize="Size.Large" OnClick="@(CopyShortLinkToClipboardAsync)" Size="Size.Medium" Variant="Variant.Outlined">@_copyShortLinkButtonText</MudButton>
+                        </MudStack>
+                    }
+                </MudStack>
+            }
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+
+@code {
+
+    private readonly CancellationTokenSource _cancellationTokenSource = new();
+
+    private bool _isProcessing;
+    private string? _longLink;
+    private string? _shortLink;
+    MudForm _longLinkForm = null!;
+
+    private bool _isShortLinkCopied;
+    private string? _copyShortLinkButtonIcon;
+    private string _copyShortLinkButtonText = "Copy shortened URL";
+
+    public void Dispose()
+    {
+        _cancellationTokenSource.Cancel();
+        _cancellationTokenSource.Dispose();
+    }
+
+    private async Task ShortenLongLinkAsync()
+    {
+        await _longLinkForm.Validate();
+        if (!_longLinkForm.IsValid)
+        {
+            return;
+        }
+
+        _isProcessing = true;
+
+        Snackbar.Clear();
+        var shortLinkResult = await ShortenedUrlService.ShortenUrlAsync(_longLink!, _cancellationTokenSource.Token);
+        if (shortLinkResult.IsSuccess)
+        {
+            _shortLink = shortLinkResult.Value;
+        }
+        else
+        {
+            @foreach (var error in shortLinkResult.Errors)
+            {
+                Snackbar.Add(error.Message, Severity.Error);
+            }
+        }
+
+        _isProcessing = false;
+    }
+
+    private void GoBackToLongLinkInput()
+    {
+        _isProcessing = true;
+
+        _longLink = null;
+        _shortLink = null;
+
+        _isProcessing = false;
+    }
+
+    private async Task CopyShortLinkToClipboardAsync()
+    {
+        await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", _shortLink);
+
+        _isShortLinkCopied = true;
+        _copyShortLinkButtonIcon = Icons.Material.Rounded.Done;
+        _copyShortLinkButtonText = "URL copied";
+        StateHasChanged();
+
+        var copyCooldown = TimeSpan.FromSeconds(5);
+        await Task.Delay(copyCooldown);
+
+        _copyShortLinkButtonIcon = null;
+        _copyShortLinkButtonText = "Copy shortened URL";
+        _isShortLinkCopied = false;
+    }
+
+}

@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <Version>0.1.0</Version>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="NSwag.AspNetCore"/>
+        <PackageReference Include="NSwag.MSBuild">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Serilog.AspNetCore"/>
+        <PackageReference Include="Serilog.Enrichers.Environment"/>
+        <PackageReference Include="Serilog.Enrichers.Thread"/>
+        <PackageReference Include="Serilog.Sinks.Seq"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Urleso.Application\Urleso.Application.csproj"/>
+        <ProjectReference Include="..\Urleso.Infrastructure\Urleso.Infrastructure.csproj"/>
+        <ProjectReference Include="..\Urleso.Presentation\Urleso.Presentation.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="..\..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
+    </ItemGroup>
+
+    <Target Name="NSwag" BeforeTargets="AfterBuild" Condition="'$(ClientGen)'=='True'">
+        <Exec ConsoleToMSBuild="true" ContinueOnError="true" Command="$(NSwagExe_Net80) run nswag.json /variables:OutputPath=..\Urleso.Api.Client,Configuration=$(Configuration)">
+            <Output TaskParameter="ExitCode" PropertyName="NSwagExitCode"/>
+            <Output TaskParameter="ConsoleOutput" PropertyName="NSwagOutput"/>
+        </Exec>
+
+        <Message Text="$(NSwagOutput)" Condition="'$(NSwagExitCode)' == '0'" Importance="low"/>
+        <Error Text="$(NSwagOutput)" Condition="'$(NSwagExitCode)' != '0'"/>
+    </Target>
+
+</Project>
