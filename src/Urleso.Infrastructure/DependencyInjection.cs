@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Urleso.Infrastructure.Data;
 using Urleso.Infrastructure.Services;
 
@@ -7,9 +6,9 @@ namespace Urleso.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
-        services.AddData(configuration);
+        services.AddData();
         services.AddServices();
 
         return services;
