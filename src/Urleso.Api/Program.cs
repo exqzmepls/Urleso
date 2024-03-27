@@ -10,7 +10,7 @@ builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Confi
 
 var services = builder.Services;
 services.AddApplication();
-services.AddInfrastructure(builder.Configuration);
+services.AddInfrastructure();
 services.AddPresentation();
 services.AddEndpointsApiExplorer();
 services.AddOpenApiGen();
