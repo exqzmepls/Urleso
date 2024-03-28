@@ -1,36 +1,31 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Urleso.Persistence;
 
 namespace Urleso.DatabaseMigrator;
 
 internal sealed class MigratorHostedService(
-    IHostApplicationLifetime hostApplicationLifetime,
-    MigrationsWorker migrationsWorker,
-    ILogger<MigratorHostedService> logger
-)
-    : BackgroundService
+        IDbContextFactory<ApplicationDbContext> dbContextFactory,
+        ILogger<MigratorHostedService> logger
+    )
+    : IHostedService
 {
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    public async Task StartAsync(CancellationToken cancellationToken)
     {
-        try
+        logger.LogInformation("Starting migrations...");
+
+        await using (var appDbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
-            try
-            {
-                await Task.Delay(Timeout.Infinite, hostApplicationLifetime.ApplicationStarted);
-            }
-            catch (OperationCanceledException)
-            {
-                await migrationsWorker.MigrateAsync(stoppingToken);
-            }
+            await appDbContext.Database.MigrateAsync(cancellationToken);
         }
-        catch (Exception exception)
-        {
-            logger.LogError(exception, "Error has occured while applying migrations");
-            Environment.ExitCode = exception.HResult;
-        }
-        finally
-        {
-            hostApplicationLifetime.StopApplication();
-        }
+
+        logger.LogInformation("Migrations completed");
+    }
+
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        logger.LogInformation("Stopping Migrator...");
+        return Task.CompletedTask;
     }
 }

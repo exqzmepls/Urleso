@@ -3,12 +3,13 @@ using Microsoft.Extensions.Hosting;
 using Urleso.DatabaseMigrator;
 using Urleso.Persistence;
 
-var host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services => services
-        .AddDatabase()
-        .AddSingleton<MigrationsWorker>()
-        .AddHostedService<MigratorHostedService>()
-    )
-    .Build();
+var builder = Host.CreateApplicationBuilder(args);
+var services = builder.Services;
 
-await host.RunAsync();
+services.AddDatabase(builder.Configuration);
+services.AddHostedService<MigratorHostedService>();
+
+var host = builder.Build();
+
+await host.StartAsync();
+await host.StopAsync();

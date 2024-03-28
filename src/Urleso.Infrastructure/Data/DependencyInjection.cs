@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Urleso.Application.Abstractions.Data;
 using Urleso.Application.Abstractions.Data.Repositories;
@@ -9,9 +10,9 @@ namespace Urleso.Infrastructure.Data;
 
 internal static class DependencyInjection
 {
-    public static IServiceCollection AddData(this IServiceCollection services)
+    public static IServiceCollection AddData(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDatabase();
+        services.AddDatabase(configuration);
         services.TryAddScoped<IUnitOfWork, UnitOfWork>();
         services.TryAddScoped<IShortenedUrlRepository, ShortenedUrlRepository>();
 
