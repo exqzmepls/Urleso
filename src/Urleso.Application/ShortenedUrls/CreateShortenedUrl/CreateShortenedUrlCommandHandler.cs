@@ -40,8 +40,8 @@ internal sealed class CreateShortenedUrlCommandHandler(
             return addResult.Error;
         }
 
-        var saveChangesResult = await unitOfWork.SaveChangesAsync(cancellationToken);
-        return saveChangesResult.IsSuccess ? shortenedUrl : saveChangesResult.Error;
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+        return shortenedUrl;
     }
 
     private async Task<TypedResult<UrlCode>> GenerateUrlCodeAsync(CancellationToken cancellationToken)
