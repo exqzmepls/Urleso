@@ -4,8 +4,4 @@
         <Version>0.1.0</Version>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Urleso.SharedKernel\Urleso.SharedKernel.csproj" />
-    </ItemGroup>
-
 </Project>
