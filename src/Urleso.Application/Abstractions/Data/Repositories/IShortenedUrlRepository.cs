@@ -1,5 +1,5 @@
-﻿using Urleso.Domain.Results;
-using Urleso.Domain.ShortenedUrls;
+﻿using Urleso.Domain.ShortenedUrls;
+using Urleso.SharedKernel;
 
 namespace Urleso.Application.Abstractions.Data.Repositories;
 

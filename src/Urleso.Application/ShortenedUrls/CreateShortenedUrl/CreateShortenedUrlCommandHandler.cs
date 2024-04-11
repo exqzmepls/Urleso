@@ -2,32 +2,32 @@
 using Urleso.Application.Abstractions.Data.Repositories;
 using Urleso.Application.Abstractions.Messaging;
 using Urleso.Application.Abstractions.Services;
-using Urleso.Domain.Results;
 using Urleso.Domain.ShortenedUrls;
+using Urleso.SharedKernel;
 
 namespace Urleso.Application.ShortenedUrls.CreateShortenedUrl;
 
 internal sealed class CreateShortenedUrlCommandHandler(
-        ICodeGeneratingService codeGeneratingService,
-        IShortenedUrlRepository shortenedUrlRepository,
-        IClock clock,
-        IUnitOfWork unitOfWork
-    )
+    ICodeGeneratingService codeGeneratingService,
+    IShortenedUrlRepository shortenedUrlRepository,
+    IClock clock,
+    IUnitOfWork unitOfWork
+)
     : ICommandHandler<CreateShortenedUrlCommand, ShortenedUrl>
 {
     public async Task<TypedResult<ShortenedUrl>> Handle(CreateShortenedUrlCommand command,
         CancellationToken cancellationToken)
     {
         var longUrlResult = LongUrl.Create(command.LongUrl);
-        if (!longUrlResult.IsSuccess)
+        if (longUrlResult.IsFailure)
         {
-            return TypedResult<ShortenedUrl>.Failure(longUrlResult.Error);
+            return longUrlResult.Error;
         }
 
         var urlCodeResult = await GenerateUrlCodeAsync(cancellationToken);
-        if (!urlCodeResult.IsSuccess)
+        if (urlCodeResult.IsFailure)
         {
-            return TypedResult<ShortenedUrl>.Failure(urlCodeResult.Error);
+            return urlCodeResult.Error;
         }
 
         var longUrl = longUrlResult.Value;
@@ -35,15 +35,13 @@ internal sealed class CreateShortenedUrlCommandHandler(
         var shortenedUrl = CreateShortenedUrl(longUrl, urlCode);
 
         var addResult = await shortenedUrlRepository.AddAsync(shortenedUrl, cancellationToken);
-        if (!addResult.IsSuccess)
+        if (addResult.IsFailure)
         {
-            return TypedResult<ShortenedUrl>.Failure(addResult.Error);
+            return addResult.Error;
         }
 
         var saveChangesResult = await unitOfWork.SaveChangesAsync(cancellationToken);
-        return !saveChangesResult.IsSuccess
-            ? TypedResult<ShortenedUrl>.Failure(saveChangesResult.Error)
-            : TypedResult<ShortenedUrl>.Success(shortenedUrl);
+        return saveChangesResult.IsSuccess ? shortenedUrl : saveChangesResult.Error;
     }
 
     private async Task<TypedResult<UrlCode>> GenerateUrlCodeAsync(CancellationToken cancellationToken)
@@ -51,23 +49,23 @@ internal sealed class CreateShortenedUrlCommandHandler(
         while (!cancellationToken.IsCancellationRequested)
         {
             var shortCodeResult = codeGeneratingService.GenerateUniqueCode(UrlCode.CodeDefaultLength);
-            if (!shortCodeResult.IsSuccess)
+            if (shortCodeResult.IsFailure)
             {
-                return TypedResult<UrlCode>.Failure(shortCodeResult.Error);
+                return shortCodeResult.Error;
             }
 
             var shortCode = shortCodeResult.Value;
             var urlCodeResult = UrlCode.Create(shortCode);
-            if (!urlCodeResult.IsSuccess)
+            if (urlCodeResult.IsFailure)
             {
-                return urlCodeResult;
+                return urlCodeResult.Error;
             }
 
             var code = urlCodeResult.Value;
             var isCodeExistResult = await shortenedUrlRepository.IsCodeExistAsync(code, cancellationToken);
             if (!isCodeExistResult.IsSuccess)
             {
-                return TypedResult<UrlCode>.Failure(isCodeExistResult.Error);
+                return isCodeExistResult.Error;
             }
 
             var isCodeExist = isCodeExistResult.Value;

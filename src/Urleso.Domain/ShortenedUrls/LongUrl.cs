@@ -1,4 +1,4 @@
-﻿using Urleso.Domain.Results;
+﻿using Urleso.SharedKernel;
 
 namespace Urleso.Domain.ShortenedUrls;
 
@@ -17,15 +17,15 @@ public sealed record LongUrl
     {
         if (!IsLengthNotGreaterThenMaxValue(url))
         {
-            return TypedResult<LongUrl>.Failure(Errors.LongUrl.LengthTooLong);
+            return Errors.LongUrl.LengthTooLong;
         }
 
         if (!IsUrlAbsolute(url))
         {
-            return TypedResult<LongUrl>.Failure(Errors.LongUrl.NonAbsoluteLink);
+            return Errors.LongUrl.NonAbsoluteLink;
         }
 
-        return TypedResult<LongUrl>.Success(new LongUrl(url));
+        return new LongUrl(url);
     }
 
     private static bool IsLengthNotGreaterThenMaxValue(string url) => url.Length <= UrlMaxLength;

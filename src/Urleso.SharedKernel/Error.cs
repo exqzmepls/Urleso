@@ -1,4 +1,4 @@
-﻿namespace Urleso.Domain.Results;
+﻿namespace Urleso.SharedKernel;
 
 public sealed class Error
 {

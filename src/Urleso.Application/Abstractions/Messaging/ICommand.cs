@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Urleso.Domain.Results;
+using Urleso.SharedKernel;
 
 namespace Urleso.Application.Abstractions.Messaging;
 
