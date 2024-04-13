@@ -4,4 +4,8 @@
         <Version>0.1.0</Version>
     </PropertyGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="$(AssemblyName).UnitTests"/>
+    </ItemGroup>
+
 </Project>

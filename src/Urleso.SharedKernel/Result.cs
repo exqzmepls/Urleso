@@ -12,17 +12,15 @@ public sealed class Result
         _error = error;
     }
 
-    public bool IsSuccess { get; }
+    public Error Error => IsSuccess ? throw new NotAvailableErrorException() : _error!;
 
     public bool IsFailure => !IsSuccess;
 
-    public Error Error => IsSuccess
-        ? throw new InvalidOperationException("The error of a success result can not be accessed.")
-        : _error!;
+    public bool IsSuccess { get; }
 
     public static implicit operator Result(Error error) => Failure(error);
 
     public static Result Success() => SuccessResult;
 
-    public static Result Failure(Error error) => new(isSuccess: false, error);
+    private static Result Failure(Error error) => new(isSuccess: false, error);
 }

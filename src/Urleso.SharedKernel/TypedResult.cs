@@ -11,31 +11,28 @@ public sealed class TypedResult<TValue>
         _value = value;
     }
 
-    public bool IsSuccess => _result.IsSuccess;
-
-    public bool IsFailure => _result.IsFailure;
+    public TValue Value => IsSuccess ? _value! : throw new NotAvailableValueException();
 
     public Error Error => _result.Error;
 
-    public TValue Value => IsSuccess
-        ? _value!
-        : throw new InvalidOperationException("The value of a failure result can not be accessed.");
+    public bool IsFailure => _result.IsFailure;
+
+    public bool IsSuccess => _result.IsSuccess;
 
     public static implicit operator TypedResult<TValue>(TValue value) => Success(value);
 
     public static implicit operator TypedResult<TValue>(Error error) => Failure(error);
 
-    public static TypedResult<TValue> Success(TValue value)
+    private static TypedResult<TValue> Success(TValue value)
     {
         var result = Result.Success();
         var typedResult = new TypedResult<TValue>(result, value);
         return typedResult;
     }
 
-    public static TypedResult<TValue> Failure(Error error)
+    private static TypedResult<TValue> Failure(Error error)
     {
-        var result = Result.Failure(error);
-        var typedResult = new TypedResult<TValue>(result, value: default);
+        var typedResult = new TypedResult<TValue>(error, value: default);
         return typedResult;
     }
 }
