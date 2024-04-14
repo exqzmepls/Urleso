@@ -8,7 +8,7 @@ public sealed class TypedResultTests
     [InlineData(null)]
     [InlineData("test value string")]
     [InlineData(7)]
-    public void ImplicitSuccess_Should_ReturnSuccessWithValueAndWithoutError<T>(T value)
+    internal void ImplicitSuccess_Should_ReturnSuccessWithValueAndWithoutError<T>(T value)
     {
         // Arrange
         TypedResult<T> Success() => value;
@@ -30,7 +30,7 @@ public sealed class TypedResultTests
     [InlineData(null)]
     [InlineData("test value string")]
     [InlineData(7)]
-    public void ImplicitFailure_Should_ReturnFailureWithErrorAndWithoutValue<T>(T value)
+    internal void ImplicitFailure_Should_ReturnFailureWithErrorAndWithoutValue<T>(T value)
     {
         // Arrange
         var error = new Error(code: "Tests.TypedResult", message: "Typed result tests error message");

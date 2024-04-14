@@ -5,7 +5,7 @@ namespace Urleso.SharedKernel.UnitTests.Results;
 public sealed class ResultTests
 {
     [Fact]
-    public void ImplicitSuccess_Should_ReturnSuccessWithoutError()
+    internal void ImplicitSuccess_Should_ReturnSuccessWithoutError()
     {
         // Act
         var result = Result.Success();
@@ -20,7 +20,7 @@ public sealed class ResultTests
     }
 
     [Fact]
-    public void ImplicitFailure_Should_ReturnFailureWithError()
+    internal void ImplicitFailure_Should_ReturnFailureWithError()
     {
         // Arrange
         var error = new Error(code: "Tests.Result", message: "Result tests error message");

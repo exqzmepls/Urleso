@@ -5,7 +5,7 @@ namespace Urleso.SharedKernel.UnitTests.Results;
 public sealed class ExceptionsTests
 {
     [Fact]
-    public void NotAvailableValueException_Should_HaveCorrectMessage()
+    internal void NotAvailableValueException_Should_HaveCorrectMessage()
     {
         // Act
         var exception = new NotAvailableValueException();
@@ -15,7 +15,7 @@ public sealed class ExceptionsTests
     }
 
     [Fact]
-    public void NotAvailableErrorException_Should_HaveCorrectMessage()
+    internal void NotAvailableErrorException_Should_HaveCorrectMessage()
     {
         // Act
         var exception = new NotAvailableErrorException();

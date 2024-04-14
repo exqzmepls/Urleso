@@ -5,7 +5,7 @@ namespace Urleso.SharedKernel.UnitTests.Results;
 public sealed class ErrorTests
 {
     [Fact]
-    public void Constructor_Should_SetCodeAndMessage()
+    internal void Constructor_Should_SetCodeAndMessage()
     {
         // Arrange
         const string code = "Tests.Error";
