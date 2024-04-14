@@ -1,4 +1,4 @@
-﻿namespace Urleso.SharedKernel;
+﻿namespace Urleso.SharedKernel.Entities;
 
 public abstract class Entity<TEntityId>(TEntityId id) : IEquatable<Entity<TEntityId>>
     where TEntityId : IEquatable<TEntityId>
@@ -21,6 +21,6 @@ public abstract class Entity<TEntityId>(TEntityId id) : IEquatable<Entity<TEntit
             return false;
         }
 
-        return other.GetType() == GetType() && Id.Equals(other.Id);
+        return GetType() == other.GetType() && Id.Equals(other.Id);
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Urleso.Application.Abstractions.Data.Repositories;
 using Urleso.Domain.ShortenedUrls;
 using Urleso.Persistence;
-using Urleso.SharedKernel;
+using Urleso.SharedKernel.Results;
 
 namespace Urleso.Infrastructure.Data.Repositories;
 

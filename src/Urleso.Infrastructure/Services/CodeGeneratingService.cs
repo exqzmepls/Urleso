@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Urleso.Application.Abstractions.Services;
-using Urleso.SharedKernel;
+using Urleso.SharedKernel.Results;
 
 namespace Urleso.Infrastructure.Services;
 

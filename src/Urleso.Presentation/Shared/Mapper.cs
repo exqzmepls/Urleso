@@ -1,4 +1,4 @@
-﻿using Urleso.SharedKernel;
+﻿using Urleso.SharedKernel.Results;
 
 namespace Urleso.Presentation.Shared;
 

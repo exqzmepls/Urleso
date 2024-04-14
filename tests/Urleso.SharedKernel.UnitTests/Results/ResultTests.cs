@@ -1,4 +1,6 @@
-namespace Urleso.SharedKernel.UnitTests;
+using Urleso.SharedKernel.Results;
+
+namespace Urleso.SharedKernel.UnitTests.Results;
 
 public sealed class ResultTests
 {

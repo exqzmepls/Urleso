@@ -1,5 +1,5 @@
 ﻿using Urleso.Domain.ShortenedUrls;
-using Urleso.SharedKernel;
+using Urleso.SharedKernel.Results;
 using Xunit;
 
 namespace Urleso.Domain.UnitTests.ShortenedUrls.LongUrlValueObject;

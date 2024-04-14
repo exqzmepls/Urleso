@@ -1,6 +1,6 @@
 ﻿using Xunit;
 using Urleso.Domain.ShortenedUrls;
-using Urleso.SharedKernel;
+using Urleso.SharedKernel.Results;
 
 namespace Urleso.Domain.UnitTests.ShortenedUrls.UrlCodeValueObject;
 

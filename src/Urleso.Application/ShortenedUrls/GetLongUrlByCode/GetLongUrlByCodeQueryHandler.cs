@@ -1,7 +1,7 @@
 ﻿using Urleso.Application.Abstractions.Data.Repositories;
 using Urleso.Application.Abstractions.Messaging;
 using Urleso.Domain.ShortenedUrls;
-using Urleso.SharedKernel;
+using Urleso.SharedKernel.Results;
 
 namespace Urleso.Application.ShortenedUrls.GetLongUrlByCode;
 
