@@ -1,6 +1,4 @@
-using Xunit;
-
-namespace Urleso.Domain.UnitTests.Primitives;
+namespace Urleso.SharedKernel.UnitTests;
 
 public sealed class EntityTests
 {
