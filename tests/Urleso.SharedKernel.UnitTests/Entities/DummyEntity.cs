@@ -2,4 +2,4 @@
 
 namespace Urleso.SharedKernel.UnitTests.Entities;
 
-internal sealed class DummyEntity(DummyEntityId id) : Entity<DummyEntityId>(id);
+internal sealed class DummyEntity(Guid id) : Entity<Guid>(id);

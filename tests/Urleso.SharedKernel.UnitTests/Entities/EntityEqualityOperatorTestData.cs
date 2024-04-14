@@ -4,8 +4,7 @@ internal abstract class EntityEqualityOperatorTestData : TheoryData<DummyEntity?
 {
     protected static DummyEntity CreateEntity(string guidString)
     {
-        var guid = Guid.Parse(guidString);
-        var id = new DummyEntityId(guid);
+        var id = Guid.Parse(guidString);
         var entity = new DummyEntity(id);
         return entity;
     }
