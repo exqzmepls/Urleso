@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-namespace Urleso.Domain.UnitTests.ShortenedUrls.UrlCodeValueObject;
+﻿namespace Urleso.Domain.UnitTests.ShortenedUrls.UrlCodes;
 
 internal sealed class UrlCodeCreatePositiveTestData : TheoryData<string>
 {
