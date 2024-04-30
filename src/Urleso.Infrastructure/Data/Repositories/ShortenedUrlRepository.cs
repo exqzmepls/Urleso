@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Urleso.Application.Abstractions.Data.Repositories;
-using Urleso.Domain.Results;
 using Urleso.Domain.ShortenedUrls;
 using Urleso.Persistence;
+using Urleso.SharedKernel.Results;
 
 namespace Urleso.Infrastructure.Data.Repositories;
 
@@ -20,7 +20,7 @@ internal sealed class ShortenedUrlRepository(
         logger.LogInformation("Getting any shortened url with code {@UrlCode}...", code);
         var isCodeExist = await ShortenedUrls.AnyAsync(u => u.Code == code, cancellationToken);
         logger.LogInformation("Are any shortened url with code {@UrlCode}: {IsUrlCodeExist}", code, isCodeExist);
-        return TypedResult<bool>.Success(isCodeExist);
+        return isCodeExist;
     }
 
     public async Task<Result> AddAsync(ShortenedUrl url, CancellationToken cancellationToken)
@@ -37,6 +37,6 @@ internal sealed class ShortenedUrlRepository(
         logger.LogInformation("Getting single shortened url with code {@UrlCode}...", code);
         var shortenedUrl = await ShortenedUrls.SingleOrDefaultAsync(u => u.Code == code, cancellationToken);
         logger.LogInformation("Code {@UrlCode} is for '{@ShortenedUrl}' shortened url", code, shortenedUrl);
-        return TypedResult<ShortenedUrl?>.Success(shortenedUrl);
+        return shortenedUrl;
     }
 }

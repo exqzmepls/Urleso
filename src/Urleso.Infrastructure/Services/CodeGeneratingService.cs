@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using Urleso.Application.Abstractions.Services;
-using Urleso.Domain.Results;
+using Urleso.SharedKernel.Results;
 
 namespace Urleso.Infrastructure.Services;
 
 internal sealed class CodeGeneratingService(
-        ILogger<CodeGeneratingService> logger
-    )
+    ILogger<CodeGeneratingService> logger
+)
     : ICodeGeneratingService
 {
     private static readonly IReadOnlyList<char> AvailableChars;
@@ -34,7 +34,7 @@ internal sealed class CodeGeneratingService(
         logger.LogInformation("Generation unique code with length of '{UniqueCodeLength}'...", length);
         var uniqueCode = GenerateUniqueCodeInternal(length);
         logger.LogInformation("Generated unique code: {UniqueCode}", uniqueCode);
-        return TypedResult<string>.Success(uniqueCode);
+        return uniqueCode;
     }
 
     private string GenerateUniqueCodeInternal(int length)

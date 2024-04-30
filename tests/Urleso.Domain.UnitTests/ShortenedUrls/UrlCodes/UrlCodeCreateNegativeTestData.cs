@@ -1,8 +1,7 @@
-﻿using Urleso.Domain.Results;
-using Urleso.Domain.ShortenedUrls;
-using Xunit;
+﻿using Urleso.Domain.ShortenedUrls;
+using Urleso.SharedKernel.Results;
 
-namespace Urleso.Domain.UnitTests.ShortenedUrls.UrlCodeValueObject;
+namespace Urleso.Domain.UnitTests.ShortenedUrls.UrlCodes;
 
 internal sealed class UrlCodeCreateNegativeTestData : TheoryData<string, Error>
 {

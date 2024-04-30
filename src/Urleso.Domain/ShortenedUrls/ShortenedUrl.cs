@@ -1,4 +1,4 @@
-﻿using Urleso.Domain.Primitives;
+﻿using Urleso.SharedKernel.Entities;
 
 namespace Urleso.Domain.ShortenedUrls;
 

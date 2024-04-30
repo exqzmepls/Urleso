@@ -1,10 +1,11 @@
-﻿using Urleso.Domain.Results;
+﻿using Urleso.SharedKernel.Results;
 
 namespace Urleso.Application.Abstractions.Messaging;
 
 internal sealed class Sender(
     MediatR.ISender sender
-) : ISender
+)
+    : ISender
 {
     public async Task<Result> SendAsync(
         ICommand command,

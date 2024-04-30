@@ -1,31 +1,30 @@
 ﻿using Urleso.Application.Abstractions.Data.Repositories;
 using Urleso.Application.Abstractions.Messaging;
-using Urleso.Domain.Results;
 using Urleso.Domain.ShortenedUrls;
+using Urleso.SharedKernel.Results;
 
 namespace Urleso.Application.ShortenedUrls.GetLongUrlByCode;
 
 internal sealed class GetLongUrlByCodeQueryHandler(
-        IShortenedUrlRepository shortenedUrlRepository
-    )
+    IShortenedUrlRepository shortenedUrlRepository
+)
     : IQueryHandler<GetLongUrlByCodeQuery, LongUrl?>
 {
     public async Task<TypedResult<LongUrl?>> Handle(GetLongUrlByCodeQuery query, CancellationToken cancellationToken)
     {
         var urlCodeResult = UrlCode.Create(query.Code);
-        if (!urlCodeResult.IsSuccess)
+        if (urlCodeResult.IsFailure)
         {
-            return TypedResult<LongUrl?>.Failure(urlCodeResult.Error);
+            return urlCodeResult.Error;
         }
 
         var urlCode = urlCodeResult.Value;
         var shortenedUrlResult = await shortenedUrlRepository.GetByCodeOrDefaultAsync(urlCode, cancellationToken);
-        if (!shortenedUrlResult.IsSuccess)
+        if (shortenedUrlResult.IsFailure)
         {
-            return TypedResult<LongUrl?>.Failure(shortenedUrlResult.Error);
+            return shortenedUrlResult.Error;
         }
 
-        var shortenedUrl = shortenedUrlResult.Value;
-        return TypedResult<LongUrl?>.Success(shortenedUrl?.LongUrl);
+        return shortenedUrlResult.Value?.LongUrl;
     }
 }

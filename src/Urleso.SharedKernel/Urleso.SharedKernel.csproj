@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>0.2.0</Version>
+        <Version>0.1.0</Version>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Urleso.SharedKernel\Urleso.SharedKernel.csproj"/>
+        <InternalsVisibleTo Include="$(AssemblyName).UnitTests"/>
     </ItemGroup>
 
 </Project>

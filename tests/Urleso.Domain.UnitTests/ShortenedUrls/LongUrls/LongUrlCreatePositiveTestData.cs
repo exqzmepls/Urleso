@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-namespace Urleso.Domain.UnitTests.ShortenedUrls.LongUrlValueObject;
+﻿namespace Urleso.Domain.UnitTests.ShortenedUrls.LongUrls;
 
 internal sealed class LongUrlCreatePositiveTestData : TheoryData<string>
 {

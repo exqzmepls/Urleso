@@ -1,4 +1,4 @@
-﻿using Urleso.Domain.Results;
+﻿using Urleso.SharedKernel.Results;
 
 namespace Urleso.Domain.ShortenedUrls;
 
@@ -19,15 +19,15 @@ public sealed record UrlCode
     {
         if (!IsLengthCorrect(code))
         {
-            return TypedResult<UrlCode>.Failure(Errors.UrlCode.WrongLength);
+            return Errors.UrlCode.WrongLength;
         }
 
         if (!AreCharsValid(code))
         {
-            return TypedResult<UrlCode>.Failure(Errors.UrlCode.InvalidChars);
+            return Errors.UrlCode.InvalidChars;
         }
 
-        return TypedResult<UrlCode>.Success(new UrlCode(code));
+        return new UrlCode(code);
     }
 
     private static bool IsLengthCorrect(string code) => code.Length == CodeDefaultLength;

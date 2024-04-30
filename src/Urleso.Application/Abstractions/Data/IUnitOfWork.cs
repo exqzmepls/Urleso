@@ -1,8 +1,6 @@
-﻿using Urleso.Domain.Results;
-
-namespace Urleso.Application.Abstractions.Data;
+﻿namespace Urleso.Application.Abstractions.Data;
 
 public interface IUnitOfWork
 {
-    public Task<Result> SaveChangesAsync(CancellationToken cancellationToken);
+    public Task SaveChangesAsync(CancellationToken cancellationToken);
 }

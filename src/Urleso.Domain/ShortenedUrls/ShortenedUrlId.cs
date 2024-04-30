@@ -1,5 +1,3 @@
-﻿using Urleso.Domain.Primitives;
+﻿namespace Urleso.Domain.ShortenedUrls;
 
-namespace Urleso.Domain.ShortenedUrls;
-
-public sealed record ShortenedUrlId(Guid Value) : EntityId(Value);
+public sealed record ShortenedUrlId(Guid Value);
