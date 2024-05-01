@@ -11,6 +11,8 @@ services:
     depends_on:
       urleso.api:
         condition: service_started
+      urleso.redirect:
+        condition: service_started
       urleso.web.seq:
         condition: service_started
     environment:
@@ -36,6 +38,23 @@ services:
       - ConnectionStrings__Postgresql=Host=urleso-db;Port=5432;Database=${DATABASE_NAME};Username=${DATABASE_USER};Password=${DATABASE_PASSWORD}
     ports:
       - ${API_PORT}:8080
+
+  urleso.redirect:
+    container_name: urleso-redirect
+    build:
+      context: .
+      dockerfile: Urleso.Redirect/Dockerfile
+    image: urleso.redirect:latest
+    depends_on:
+      urleso.mirgations:
+        condition: service_completed_successfully
+      urleso.redirect.seq:
+        condition: service_started
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${URLESO_ENVIRONMENT}
+      - ConnectionStrings__Postgresql=Host=urleso-db;Port=5432;Database=${DATABASE_NAME};Username=${DATABASE_USER};Password=${DATABASE_PASSWORD}
+    ports:
+      - ${REDIRECT_PORT}:8080
 
   urleso.mirgations:
     container_name: urleso-migrations
@@ -86,3 +105,13 @@ services:
       - ${API_SEQ_DATA_PATH}:/data
     ports:
       - ${API_SEQ_PORT}:80
+
+  urleso.redirect.seq:
+    image: datalust/seq:2023.4
+    container_name: urleso-redirect-seq
+    environment:
+      - ACCEPT_EULA=Y
+    volumes:
+      - ${REDIRECT_SEQ_DATA_PATH}:/data
+    ports:
+      - ${REDIRECT_SEQ_PORT}:80
