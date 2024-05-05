@@ -35,7 +35,7 @@ services:
         condition: service_started
     environment:
       - ASPNETCORE_ENVIRONMENT=${URLESO_ENVIRONMENT}
-      - ConnectionStrings__Postgresql=Host=urleso-db;Port=5432;Database=${DATABASE_NAME};Username=${DATABASE_USER};Password=${DATABASE_PASSWORD}
+      - CONNECTION_STRINGS_POSTGRESQL=Host=urleso-db;Port=5432;Database=${DATABASE_NAME};Username=${DATABASE_USER};Password=${DATABASE_PASSWORD}
     ports:
       - ${API_PORT}:8080
 
@@ -52,7 +52,7 @@ services:
         condition: service_started
     environment:
       - ASPNETCORE_ENVIRONMENT=${URLESO_ENVIRONMENT}
-      - ConnectionStrings__Postgresql=Host=urleso-db;Port=5432;Database=${DATABASE_NAME};Username=${DATABASE_USER};Password=${DATABASE_PASSWORD}
+      - CONNECTION_STRINGS_POSTGRESQL=Host=urleso-db;Port=5432;Database=${DATABASE_NAME};Username=${DATABASE_USER};Password=${DATABASE_PASSWORD}
     ports:
       - ${REDIRECT_PORT}:8080
 
@@ -67,7 +67,7 @@ services:
         condition: service_healthy
     environment:
       - DOTNET_ENVIRONMENT=${URLESO_ENVIRONMENT}
-      - ConnectionStrings__Postgresql=Host=urleso-db;Port=5432;Database=${DATABASE_NAME};Username=${DATABASE_USER};Password=${DATABASE_PASSWORD}
+      - CONNECTION_STRINGS_POSTGRESQL=Host=urleso-db;Port=5432;Database=${DATABASE_NAME};Username=${DATABASE_USER};Password=${DATABASE_PASSWORD}
 
   urleso.db:
     image: postgres:16.1-alpine

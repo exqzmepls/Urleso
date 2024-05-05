@@ -1,4 +1,5 @@
 using Serilog;
+using Steeltoe.Extensions.Configuration.Placeholder;
 using Urleso.Api;
 using Urleso.Application;
 using Urleso.Infrastructure;
@@ -6,6 +7,7 @@ using Urleso.Presentation;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddPlaceholderResolver();
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
 var services = builder.Services;
