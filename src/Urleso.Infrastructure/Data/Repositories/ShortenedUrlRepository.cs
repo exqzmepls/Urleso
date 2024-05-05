@@ -30,13 +30,4 @@ internal sealed class ShortenedUrlRepository(
         logger.LogInformation("Shortened url {@ShortenedUrl} is added", url);
         return Result.Success();
     }
-
-    public async Task<TypedResult<ShortenedUrl?>> GetByCodeOrDefaultAsync(UrlCode code,
-        CancellationToken cancellationToken)
-    {
-        logger.LogInformation("Getting single shortened url with code {@UrlCode}...", code);
-        var shortenedUrl = await ShortenedUrls.SingleOrDefaultAsync(u => u.Code == code, cancellationToken);
-        logger.LogInformation("Code {@UrlCode} is for '{@ShortenedUrl}' shortened url", code, shortenedUrl);
-        return shortenedUrl;
-    }
 }

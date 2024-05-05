@@ -1,9 +1,9 @@
 using Serilog;
 using Steeltoe.Extensions.Configuration.Placeholder;
-using Urleso.Api;
-using Urleso.Application;
-using Urleso.Infrastructure;
-using Urleso.Presentation;
+using Urleso.Redirect;
+using Urleso.Redirect.Application;
+using Urleso.Redirect.Persistence;
+using Urleso.Redirect.Presentation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,20 +12,13 @@ builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Confi
 
 var services = builder.Services;
 services.AddApplication();
-services.AddInfrastructure();
-services.AddPresentation();
-services.AddEndpointsApiExplorer();
-services.AddOpenApiGen();
+services.AddPersistence();
+services.AddCustomProblemDetails();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseOpenApi();
-    app.UseSwaggerUi();
-}
-
 app.UseSerilogRequestLogging();
-app.MapEndpoints();
+app.UseExceptionHandler();
+app.MapShortenedUrlRedirect();
 
 app.Run();

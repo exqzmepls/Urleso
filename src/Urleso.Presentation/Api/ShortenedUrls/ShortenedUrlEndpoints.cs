@@ -43,7 +43,7 @@ public sealed class ShortenedUrlEndpoints : BaseModule
         var shortenedUrlDetails = new ShortenedUrlDetails
         {
             Url = redirectSettingsOptions.Value.BaseAddress + shortenedUrlCode,
-            UrlCode = shortenedUrlCode,
+            UrlCode = shortenedUrlCode
         };
         return TypedResults.Ok(shortenedUrlDetails);
     }
