@@ -1,4 +1,5 @@
 using Serilog;
+using Urleso.Redirect;
 using Urleso.Redirect.Application;
 using Urleso.Redirect.Persistence;
 using Urleso.Redirect.Presentation;
@@ -10,7 +11,7 @@ builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Confi
 var services = builder.Services;
 services.AddApplication();
 services.AddPersistence();
-services.AddProblemDetails();
+services.AddCustomProblemDetails();
 
 var app = builder.Build();
 
