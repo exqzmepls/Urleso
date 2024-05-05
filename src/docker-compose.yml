@@ -36,6 +36,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=${URLESO_ENVIRONMENT}
       - CONNECTION_STRINGS_POSTGRESQL=Host=urleso-db;Port=5432;Database=${DATABASE_NAME};Username=${DATABASE_USER};Password=${DATABASE_PASSWORD}
+      - REDIRECT_BASE_ADDRESS=${REDIRECT_PUBLIC_URL}
     ports:
       - ${API_PORT}:8080
 
