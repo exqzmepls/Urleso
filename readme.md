@@ -10,7 +10,7 @@ Simple URL shortener implemented using dotnet and C#
 
 ## How to run local instance
 
-Requirements: `docker` and `docker compose V2+`
+`docker` and `docker compose V2+` are required
 
 1. Clone this repository
 2. Open your terminal in [`src`](src) directory
@@ -26,14 +26,26 @@ Requirements: `docker` and `docker compose V2+`
     docker compose up -d
     ```
 
-Docker will run containers and you can use Urleso:
-
-- Urleso UI is available via http://localhost:6080
-- Urleso API is accessible on http://localhost:6800
-- Specify `localhost` as host and `6432` as port to connect to PostgreSQL database
-- Also [WEB API](http://localhost:6808) and [WEB UI](http://localhost:6088) logs are provided by Seq
+Docker will run containers and you can use Urleso :D
 
 Feel free to explore your [`.env`](src/.env) file and change default values as you wish (containers restart is needed)
+
+### Endpoints
+
+By default Urleso services are available at:
+
+- <http://localhost:6080> -> web app
+- <http://localhost:6800> -> API service
+- <http://localhost:6888> -> redirect service
+- `postgresql://localhost:6432/urleso` -> PostgreSQL database
+
+### Logging
+
+Logs are available in docker containers logs or via Seq:
+
+- [web app](http://localhost:6088)
+- [API service](http://localhost:6808)
+- [redirect service](http://localhost:6888)
 
 ## TODO features
 
