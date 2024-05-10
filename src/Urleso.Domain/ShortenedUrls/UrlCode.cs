@@ -4,9 +4,11 @@ namespace Urleso.Domain.ShortenedUrls;
 
 public sealed record UrlCode
 {
-    public const int CodeDefaultLength = 8;
+    public const int CodeLength = 8;
 
-    private static readonly HashSet<char> AvailableCharsSet = GetAvailableCharsSet();
+    // https://datatracker.ietf.org/doc/html/rfc3548#section-4
+    // Base64 URL safe encoding Alphabet -> '+' and '/' are replaced with '-' and '_'
+    public const string CodeAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 
     private UrlCode(string value)
     {
@@ -22,7 +24,7 @@ public sealed record UrlCode
             return Errors.UrlCode.WrongLength;
         }
 
-        if (!AreCharsValid(code))
+        if (!IsConsistOfCodeAlphabetChars(code))
         {
             return Errors.UrlCode.InvalidChars;
         }
@@ -30,26 +32,7 @@ public sealed record UrlCode
         return new UrlCode(code);
     }
 
-    private static bool IsLengthCorrect(string code) => code.Length == CodeDefaultLength;
+    private static bool IsLengthCorrect(string code) => code.Length == CodeLength;
 
-    private static bool AreCharsValid(string code) => code.All(c => AvailableCharsSet.Contains(c));
-
-    private static HashSet<char> GetAvailableCharsSet()
-    {
-        var result = new HashSet<char>();
-        AddChars(result, 'A', 'Z');
-        AddChars(result, 'a', 'z');
-        AddChars(result, '0', '9');
-        return result;
-
-        void AddChars(ISet<char> source, char start, char end)
-        {
-            var count = end - start + 1;
-            var chars = Enumerable.Range(start, count).Select(Convert.ToChar);
-            foreach (var c in chars)
-            {
-                source.Add(c);
-            }
-        }
-    }
+    private static bool IsConsistOfCodeAlphabetChars(string code) => code.All(c => CodeAlphabet.Contains(c));
 }
