@@ -8,7 +8,7 @@ internal static class DependencyInjection
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services.TryAddSingleton<ICodeGeneratingService, CodeGeneratingService>();
+        services.TryAddSingleton<IRandomStringGenerator, CryptographyRandomStringGenerator>();
         services.TryAddSingleton<IClock, SystemClock>();
 
         return services;
