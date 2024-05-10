@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Steeltoe.Extensions.Configuration.Placeholder;
+﻿using Steeltoe.Extensions.Configuration.Placeholder;
 using Urleso.DatabaseMigrator;
 using Urleso.Persistence;
 
@@ -13,4 +11,4 @@ var host = Host.CreateDefaultBuilder(args)
     )
     .Build();
 
-await host.RunAsync();
+host.Run();
