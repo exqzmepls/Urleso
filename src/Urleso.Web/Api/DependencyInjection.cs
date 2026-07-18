@@ -9,8 +9,7 @@ internal static class DependencyInjection
     {
         services.AddOptions<ApiSettings>()
             .BindConfiguration(ApiSettings.ConfigurationSection)
-            .ValidateDataAnnotations()
-            .ValidateOnStart();
+            .ValidateDataAnnotations();
 
         return services;
     }
