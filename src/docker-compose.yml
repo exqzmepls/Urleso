@@ -4,9 +4,7 @@ name: urleso
 services:
   urleso.web:
     container_name: urleso-web
-    build:
-      context: .
-      dockerfile: Urleso.Web/Dockerfile
+    # built from the urleso-web repository: docker build -t urleso.web:latest .
     image: urleso.web:latest
     depends_on:
       urleso.api:

@@ -30,8 +30,8 @@
         </Content>
     </ItemGroup>
 
-    <Target Name="NSwag" BeforeTargets="AfterBuild" Condition="'$(ClientGen)'=='True'">
-        <Exec ConsoleToMSBuild="true" ContinueOnError="true" Command="$(NSwagExe_Net80) run nswag.json /variables:OutputPath=..\Urleso.Api.Client,Configuration=$(Configuration)">
+    <Target Name="NSwag" BeforeTargets="AfterBuild" Condition="'$(OpenApiGen)'=='True'">
+        <Exec ConsoleToMSBuild="true" ContinueOnError="true" Command="$(NSwagExe_Net80) run nswag.json /variables:Configuration=$(Configuration)">
             <Output TaskParameter="ExitCode" PropertyName="NSwagExitCode"/>
             <Output TaskParameter="ConsoleOutput" PropertyName="NSwagOutput"/>
         </Exec>
