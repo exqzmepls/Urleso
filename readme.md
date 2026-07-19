@@ -13,14 +13,22 @@ Simple URL shortener implemented using dotnet and C#
 _`docker` and `docker compose V2+` are required_
 
 1. Clone this repository
-2. Open your terminal in [`src`](src) directory
-3. Copy [`.env.sample`](src/.env.sample) file
+2. Build the web app image from the [urleso-web](https://github.com/exqzmepls/urleso-web) repository
+
+    ```shell
+    git clone https://github.com/exqzmepls/urleso-web.git
+    cd urleso-web
+    docker build -t urleso.web:latest .
+    ```
+
+3. Open your terminal in [`src`](src) directory
+4. Copy [`.env.sample`](src/.env.sample) file
 
     ```shell
     cp .env.sample .env
     ```
 
-4. Run following command
+5. Run following command
 
     ```shell
     docker compose up -d
@@ -43,9 +51,10 @@ By default Urleso services are available at:
 
 Logs are available in docker containers logs or via Seq:
 
-- [web app](http://localhost:6088)
 - [API service](http://localhost:6808)
 - [redirect service](http://localhost:6888)
+
+The web app logs to the browser console.
 
 ## TODO features
 

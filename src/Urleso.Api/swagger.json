@@ -1,0 +1,89 @@
+{
+  "x-generator": "NSwag v14.0.2.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Urleso.Api",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/shortened-urls": {
+      "post": {
+        "tags": [
+          "Shortened URLs"
+        ],
+        "operationId": "PostApiShortenedUrls",
+        "requestBody": {
+          "x-name": "Options",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShortenedUrlOptions"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShortenedUrlDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ShortenedUrlDetails": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Url": {
+            "type": "string"
+          },
+          "UrlCode": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorDetails": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Code": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          }
+        }
+      },
+      "ShortenedUrlOptions": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "LongUrl": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
