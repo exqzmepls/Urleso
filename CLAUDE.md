@@ -24,7 +24,7 @@ Specialist agents
 
 ## Project Overview
 
-Urleso is a URL shortener built with .NET 8 / C#. This solution holds two deployable services (API, redirect) plus a database migrator; the web UI lives in the separate [urleso-web](https://github.com/exqzmepls/urleso-web) repository. Everything is composed with Docker (`src/docker-compose.yml` runs the web app too, from a prebuilt image).
+Urleso is a URL shortener built with .NET 8 / C#. This solution holds two deployable services (API, redirect) plus a database migrator, composed with Docker (`src/docker-compose.yml`); the web UI lives in the separate [urleso-web](https://github.com/exqzmepls/urleso-web) repository and runs with its own docker compose.
 
 ## Commands
 
@@ -50,14 +50,14 @@ dotnet ef migrations add <Name> --project src/Urleso.DatabaseMigrator --startup-
 
 ### Running the full stack locally
 
-Requires docker + docker compose V2, and the `urleso.web:latest` image built from the urleso-web repository (`docker build -t urleso.web:latest .` there). From the `src/` directory:
+Requires docker + docker compose V2. From the `src/` directory:
 
 ```shell
 cp .env.sample .env   # first time only
 docker compose up -d
 ```
 
-Default endpoints: web app <http://localhost:6080>, API <http://localhost:6800>, redirect <http://localhost:6880>, PostgreSQL `postgresql://localhost:6432/urleso`. Seq log UIs: API 6808, redirect 6888.
+The web UI is started separately from the urleso-web repository (same commands from its root). Default endpoints: API <http://localhost:6800>, redirect <http://localhost:6880>, web app <http://localhost:6080> (urleso-web compose), PostgreSQL `postgresql://localhost:6432/urleso`. Seq log UIs: API 6808, redirect 6888.
 
 ## Architecture
 
@@ -65,7 +65,7 @@ Default endpoints: web app <http://localhost:6080>, API <http://localhost:6800>,
 
 - **Urleso.Api** — REST API for creating shortened URLs. Composes the Clean Architecture layers below.
 - **Urleso.Redirect** — standalone, minimal redirect service. Deliberately does NOT reference Domain/Application; it has its own internal Application/Persistence/Presentation folders and reads the database directly with Dapper + raw SQL for a fast read path.
-- **urleso.web** (separate [urleso-web](https://github.com/exqzmepls/urleso-web) repository) — standalone Blazor WebAssembly UI served by nginx; compose consumes its prebuilt `urleso.web:latest` image. The browser calls the API directly, so CORS is configured in `Urleso.Api` via `CORS_ALLOWED_ORIGINS`.
+- **urleso.web** (separate [urleso-web](https://github.com/exqzmepls/urleso-web) repository, runs via its own docker compose) — standalone Blazor WebAssembly UI served by nginx. The browser calls the API directly, so CORS is configured in `Urleso.Api` via `CORS_ALLOWED_ORIGINS` (keep it in sync with the web app's origin).
 - **Urleso.DatabaseMigrator** — worker service that applies EF Core migrations on startup; docker compose runs it before Api/Redirect start. Migration files live here (`MigrationsAssembly` is set to this project in `Urleso.Persistence/DependencyInjection.cs`), while `ApplicationDbContext` and entity configurations live in `Urleso.Persistence`.
 
 ### Clean Architecture layers (used by Urleso.Api)

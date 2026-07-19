@@ -2,20 +2,6 @@
 name: urleso
 
 services:
-  urleso.web:
-    container_name: urleso-web
-    # built from the urleso-web repository: docker build -t urleso.web:latest .
-    image: urleso.web:latest
-    depends_on:
-      urleso.api:
-        condition: service_started
-      urleso.redirect:
-        condition: service_started
-    environment:
-      - API_BASE_ADDRESS=${API_PUBLIC_URL}
-    ports:
-      - ${WEB_PORT}:8080
-
   urleso.api:
     container_name: urleso-api
     build:
