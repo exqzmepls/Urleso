@@ -14,6 +14,7 @@ var services = builder.Services;
 services.AddApplication();
 services.AddInfrastructure();
 services.AddPresentation();
+services.AddWebCors();
 services.AddEndpointsApiExplorer();
 services.AddOpenApiGen();
 
@@ -26,6 +27,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseSerilogRequestLogging();
+app.UseCors();
 app.MapEndpoints();
 
 app.Run();

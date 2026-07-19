@@ -291,3 +291,6 @@ __pycache__/
 
 # ENV files
 .env
+
+# Volumes
+.containers/

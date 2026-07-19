@@ -1,34 +1,24 @@
-using Urleso.Web.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Options;
 using MudBlazor.Services;
-using Serilog;
 using Urleso.Web.Api;
+using Urleso.Web.Components;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-// https://github.com/MudBlazor/MudBlazor/issues/6724
-builder.WebHost.UseStaticWebAssets();
-
-builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
+builder.RootComponents.Add<Routes>("#app");
+builder.RootComponents.Add<HeadOutlet>("head::after");
 
 var services = builder.Services;
-services.AddRazorComponents().AddInteractiveServerComponents();
 services.AddMudServices();
 
 services.AddApiSettings();
 services.AddApiServices();
 
-var app = builder.Build();
+var host = builder.Build();
 
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-}
+// WebAssemblyHost does not run startup validators, so resolve the settings eagerly to fail fast
+_ = host.Services.GetRequiredService<IOptions<ApiSettings>>().Value;
 
-app.UseStaticFiles();
-app.UseAntiforgery();
-app.UseSerilogRequestLogging();
-
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
-
-app.Run();
+await host.RunAsync();
